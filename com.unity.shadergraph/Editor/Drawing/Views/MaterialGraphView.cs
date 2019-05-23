@@ -129,6 +129,24 @@ namespace UnityEditor.ShaderGraph.Drawing
                         return DropdownMenuAction.Status.Disabled;
                 });
 
+                foreach (MaterialNodeView selectedNode in selection.Where(x => x is MaterialNodeView).Select(x => x as MaterialNodeView))
+                {
+                    if (selectedNode.node.hasPreview && selectedNode.node.previewExpanded)
+                    {
+                        evt.menu.AppendAction("Collapse Selected Previews", _ => SetSelectionPreviews(false), (a) => DropdownMenuAction.Status.Normal);
+                        break;
+                    }
+                }
+
+                foreach (MaterialNodeView selectedNode in selection.Where(x => x is MaterialNodeView).Select(x => x as MaterialNodeView))
+                {
+                    if (selectedNode.node.hasPreview && !selectedNode.node.previewExpanded)
+                    {
+                        evt.menu.AppendAction("Expand Selected Previews", _ => SetSelectionPreviews(true), (a) => DropdownMenuAction.Status.Normal);
+                        break;
+                    }
+                }
+
                 if (selection.OfType<IShaderNodeView>().Count() == 1)
                 {
                     evt.menu.AppendSeparator();
@@ -147,8 +165,8 @@ namespace UnityEditor.ShaderGraph.Drawing
             }
             if (evt.target is MaterialGraphView)
             {
-                evt.menu.AppendAction("Collapse Previews", CollapsePreviews, (a) => DropdownMenuAction.Status.Normal);
-                evt.menu.AppendAction("Expand Previews", ExpandPreviews, (a) => DropdownMenuAction.Status.Normal);
+                evt.menu.AppendAction("Collapse All Previews", CollapsePreviews, (a) => DropdownMenuAction.Status.Normal);
+                evt.menu.AppendAction("Expand All Previews", ExpandPreviews, (a) => DropdownMenuAction.Status.Normal);
                 evt.menu.AppendSeparator();
             }
         }
@@ -188,6 +206,17 @@ namespace UnityEditor.ShaderGraph.Drawing
                 if (group != null)
                 {
                     group.RemoveElement(node);
+                }
+            }
+        }
+
+        void SetSelectionPreviews(bool state)
+        {
+            foreach (MaterialNodeView matNode in selection.Where(x => x is MaterialNodeView).Select(x => x as MaterialNodeView))
+            {
+                if (matNode.node.hasPreview)
+                {
+                    matNode.UpdatePreviewExpandedState(state);
                 }
             }
         }
