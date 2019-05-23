@@ -105,7 +105,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             if (diffusionProfile != null)
                 hash = (diffusionProfile.profile.hash);
 
-            sb.AppendLine(string.Format("precision {0} = asfloat(uint({1}));", GetVariableNameForSlot(0), hash));
+            sb.AppendLine(string.Format("$precision {0} = asfloat(uint({1}));", GetVariableNameForSlot(0), hash));
         }
     }
 }
