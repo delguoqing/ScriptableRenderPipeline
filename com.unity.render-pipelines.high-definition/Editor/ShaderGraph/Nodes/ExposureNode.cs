@@ -66,17 +66,13 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             });
         }
 
-        public void GenerateNodeCode(ShaderGenerator visitor, GraphContext graphContext, GenerationMode generationMode)
+        public void GenerateNodeCode(ShaderStringBuilder sb, GraphContext graphContext, GenerationMode generationMode)
         {
-            var sb = new ShaderStringBuilder();
-
             string exposure = generationMode.IsPreview() ? "1.0" : exposureFunctions[exposureType];
 
             sb.AppendLine("$precision {0} = {1};",
                 GetVariableNameForSlot(kExposureOutputSlotId),
                 exposure);
-
-            visitor.AddShaderChunk(sb.ToString(), true);
         }
     }
 }

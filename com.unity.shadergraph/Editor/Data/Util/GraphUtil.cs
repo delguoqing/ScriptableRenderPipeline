@@ -1216,9 +1216,8 @@ namespace UnityEditor.ShaderGraph
             surfaceDescriptionFunction.AppendLine(String.Format("{0} {1}(SurfaceDescriptionInputs IN)", surfaceDescriptionName, functionName), false);
             using (surfaceDescriptionFunction.BlockScope())
             {
-                ShaderGenerator sg = new ShaderGenerator();
                 surfaceDescriptionFunction.AppendLine("{0} surface = ({0})0;", surfaceDescriptionName);
-                foreach (var activeNode in activeNodeList.OfType<AbstractMaterialNode>())
+                foreach (var activeNode in activeNodeList)
                 {
                     if (activeNode is IGeneratesFunction functionNode)
                     {
@@ -1256,22 +1255,13 @@ namespace UnityEditor.ShaderGraph
                             if (foundEdges.Any())
                             {
                                 surfaceDescriptionFunction.AppendLine("surface.{0} = {1};",
-<<<<<<< HEAD
                                     hlslName,
                                     rootNode.GetSlotValue(input.id, mode));
-=======
-                                    NodeUtils.GetHLSLSafeName(input.shaderOutputName),
-                                    rootNode.GetSlotValue(input.id, mode, rootNode.concretePrecision));
->>>>>>> 155a868fc8... Minimise code changes
                             }
                             else
                             {
                                 surfaceDescriptionFunction.AppendLine("surface.{0} = {1};",
-<<<<<<< HEAD
                                     hlslName, input.GetDefaultValue(mode));
-=======
-                                    NodeUtils.GetHLSLSafeName(input.shaderOutputName), input.GetDefaultValue(mode, rootNode.concretePrecision));
->>>>>>> 155a868fc8... Minimise code changes
                             }
                         }
                     }
@@ -1283,12 +1273,8 @@ namespace UnityEditor.ShaderGraph
                     {
                         var hlslSafeName = $"{NodeUtils.GetHLSLSafeName(slot.shaderOutputName)}_{slot.id}";
                         surfaceDescriptionFunction.AppendLine("surface.{0} = {1};",
-<<<<<<< HEAD
                             hlslSafeName, rootNode.GetSlotValue(slot.id, mode));
                     }
-=======
-                            NodeUtils.GetHLSLSafeName(slot.shaderOutputName), rootNode.GetSlotValue(slot.id, mode, rootNode.concretePrecision));
->>>>>>> 155a868fc8... Minimise code changes
                 }
 
                 surfaceDescriptionFunction.AppendLine("return surface;");
@@ -1336,19 +1322,17 @@ namespace UnityEditor.ShaderGraph
             builder.AppendLine("{0} {1}({2} IN)", graphOutputStructName, functionName, graphInputStructName);
             using (builder.BlockScope())
             {
-                ShaderGenerator sg = new ShaderGenerator();
                 builder.AppendLine("{0} description = ({0})0;", graphOutputStructName);
-                foreach (var node in nodes.OfType<AbstractMaterialNode>())
+                foreach (var node in nodes)
                 {
-                    var generatesFunction = node as IGeneratesFunction;
-                    if (generatesFunction != null)
+                    if (node is IGeneratesFunction generatesFunction)
                     {
                         functionRegistry.builder.currentNode = node;
                         generatesFunction.GenerateNodeFunction(functionRegistry, graphContext, mode);
                         functionRegistry.builder.ReplaceInCurrentMapping(PrecisionUtil.Token, node.concretePrecision.ToShaderString());
                     }
-                    var generatesBodyCode = node as IGeneratesBodyCode;
-                    if (generatesBodyCode != null)
+
+                    if (node is IGeneratesBodyCode generatesBodyCode)
                     {
                         builder.currentNode = node;
                         generatesBodyCode.GenerateNodeCode(builder, graphContext, mode);

@@ -98,7 +98,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
 #pragma warning restore 618
         }
 
-        public void GenerateNodeCode(ShaderGenerator visitor, GraphContext graphContext, GenerationMode generationMode)
+        public void GenerateNodeCode(ShaderStringBuilder sb, GraphContext graphContext, GenerationMode generationMode)
         {
             uint hash = 0;
             

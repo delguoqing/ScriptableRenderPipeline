@@ -183,8 +183,6 @@ namespace UnityEditor.ShaderGraph
             var inputVariableName = $"_{GetVariableNameForNode()}";
             
             GraphUtil.GenerateSurfaceInputTransferCode(sb, subGraphData.requirements, subGraphData.inputStructName, inputVariableName);
-            
-            visitor.AddShaderChunk(sb.ToString());
 
             foreach (var outSlot in subGraphData.outputs)
                 sb.AppendLine("{0} {1};", outSlot.concreteValueType.ToShaderString(subGraphData.outputPrecision), GetVariableNameForSlot(outSlot.id));

@@ -70,7 +70,7 @@ namespace UnityEditor.ShaderGraph
 
         public static string defaultFunctionBody => m_DefaultFunctionBody;
 
-        public void GenerateNodeCode(ShaderGenerator visitor, GraphContext graphContext, GenerationMode generationMode)
+        public void GenerateNodeCode(ShaderStringBuilder sb, GraphContext graphContext, GenerationMode generationMode)
         {
             List<MaterialSlot> slots = new List<MaterialSlot>();
             GetOutputSlots<MaterialSlot>(slots);
@@ -117,7 +117,7 @@ namespace UnityEditor.ShaderGraph
                 call += $"_{GetVariableNameForNode()}_{NodeUtils.GetHLSLSafeName(argument.shaderOutputName)}";
             }
             call += ");";
-            visitor.AddShaderChunk(call, true);
+            sb.AppendLine(call);
         }
 
         public void GenerateNodeFunction(FunctionRegistry registry, GraphContext graphContext, GenerationMode generationMode)
@@ -127,9 +127,9 @@ namespace UnityEditor.ShaderGraph
 
             registry.ProvideFunction($"{functionName}_{concretePrecision.ToShaderString()}", builder =>
             {
-                switch (sourceType)
-                {
-                    case HlslSourceType.File:
+                case HlslSourceType.File:
+                    registry.ProvideFunction(functionSource, builder =>
+                    {
                         string path = AssetDatabase.GUIDToAssetPath(functionSource);
 
                         // This is required for upgrading without console errors
@@ -137,18 +137,21 @@ namespace UnityEditor.ShaderGraph
                             path = functionSource;
 
                         builder.AppendLine($"#include \"{path}\"");
-                        break;
-                    case HlslSourceType.String:
+                    });
+                    break;
+                case HlslSourceType.String:
+                    registry.ProvideFunction(functionName, builder =>
+                    {
                         builder.AppendLine(GetFunctionHeader());
-                        using(builder.BlockScope())
+                        using (builder.BlockScope())
                         {
                             builder.AppendLines(functionBody);
                         }
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            });
+                    });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private string GetFunctionHeader()
@@ -244,9 +247,6 @@ namespace UnityEditor.ShaderGraph
             {
                 owner.AddValidationError(tempId, s_MissingOutputSlot, ShaderCompilerMessageSeverity.Warning);
             }
-            
-            ValidateSlotName();
-            
             if(sourceType == HlslSourceType.File)
             {
                 if(!string.IsNullOrEmpty(functionSource))
@@ -262,7 +262,8 @@ namespace UnityEditor.ShaderGraph
                     }
                 }
             }
-            
+            ValidateSlotName();
+
             base.ValidateNode();
         }
 

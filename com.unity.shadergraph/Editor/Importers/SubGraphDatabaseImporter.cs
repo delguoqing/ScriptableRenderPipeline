@@ -316,7 +316,6 @@ namespace UnityEditor.ShaderGraph
                 using (sb.BlockScope())
                 {
                     // Just grab the body from the active nodes
-                    var bodyGenerator = new ShaderGenerator();
                     foreach (var node in nodes)
                     {
                         if (node is IGeneratesBodyCode)
