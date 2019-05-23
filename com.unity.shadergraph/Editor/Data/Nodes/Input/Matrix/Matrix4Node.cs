@@ -132,7 +132,7 @@ namespace UnityEditor.ShaderGraph
                     NodeUtils.FloatToShaderValue(m_Row3.w));
             }
             sb.AppendLine("$precision4x4 {0} = $precision4x4 (_{0}_m0.x, _{0}_m0.y, _{0}_m0.z, _{0}_m0.w, _{0}_m1.x, _{0}_m1.y, _{0}_m1.z, _{0}_m1.w, _{0}_m2.x, _{0}_m2.y, _{0}_m2.z, _{0}_m2.w, _{0}_m3.x, _{0}_m3.y, _{0}_m3.z, _{0}_m3.w);",
-                precision, GetVariableNameForNode());
+                GetVariableNameForNode());
         }
 
         public override void CollectPreviewMaterialProperties(List<PreviewProperty> properties)
