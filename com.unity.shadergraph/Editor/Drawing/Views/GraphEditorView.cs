@@ -99,10 +99,7 @@ namespace UnityEditor.ShaderGraph.Drawing
             previewManager.onPrimaryMasterChanged = OnPrimaryMasterChanged;
 
             var serializedSettings = EditorUserSettings.GetConfigValue(k_UserViewSettings);
-            if (!string.IsNullOrEmpty(serializedSettings))
-            {
-                m_UserViewSettings = JsonUtility.FromJson<UserViewSettings>(serializedSettings);
-            }
+            m_UserViewSettings = JsonUtility.FromJson<UserViewSettings>(serializedSettings) ?? new UserViewSettings();
             m_ColorManager = new ColorManager(m_UserViewSettings.colorProvider);
 
             string serializedWindowLayout = EditorUserSettings.GetConfigValue(k_FloatingWindowsLayoutKey);
