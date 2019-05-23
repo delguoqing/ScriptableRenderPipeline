@@ -80,19 +80,17 @@ namespace UnityEditor.ShaderGraph
                 if(generationMode == GenerationMode.Preview && slots.Count != 0)
                 {
                     slots.OrderBy(s => s.id);
-                    sb.AppendLine("{0} _{1}_{2};",
+                    sb.AppendLine("{0} {1};",
                         slots[0].concreteValueType.ToShaderString(),
-                        GetVariableNameForNode(),
-                        NodeUtils.GetHLSLSafeName(slots[0].shaderOutputName));
+                        GetVariableNameForSlot(slots[0].id));
                 }
                 return;
             }
 
             foreach (var argument in slots)
-                sb.AppendLine("{0} _{1}_{2};",
+                sb.AppendLine("{0} {1};",
                     argument.concreteValueType.ToShaderString(),
-                    GetVariableNameForNode(),
-                    NodeUtils.GetHLSLSafeName(argument.shaderOutputName));
+                    GetVariableNameForSlot(argument.id));
 
             string call = $"{functionName}_$precision(";
             bool first = true;
@@ -114,7 +112,7 @@ namespace UnityEditor.ShaderGraph
                 if (!first)
                     call += ", ";
                 first = false;
-                call += $"_{GetVariableNameForNode()}_{NodeUtils.GetHLSLSafeName(argument.shaderOutputName)}";
+                call += GetVariableNameForSlot(argument.id);
             }
             call += ");";
             sb.AppendLine(call);

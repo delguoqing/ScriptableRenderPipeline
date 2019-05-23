@@ -1260,12 +1260,12 @@ namespace UnityEditor.ShaderGraph
                             {
                                 surfaceDescriptionFunction.AppendLine("surface.{0} = {1};",
                                     hlslName,
-                                    rootNode.GetSlotValue(input.id, mode));
+                                    rootNode.GetSlotValue(input.id, mode, rootNode.concretePrecision));
                             }
                             else
                             {
                                 surfaceDescriptionFunction.AppendLine("surface.{0} = {1};",
-                                    hlslName, input.GetDefaultValue(mode));
+                                    hlslName, input.GetDefaultValue(mode, rootNode.concretePrecision));
                             }
                         }
                     }
