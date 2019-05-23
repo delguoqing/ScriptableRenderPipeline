@@ -25,7 +25,7 @@ namespace UnityEditor.ShaderGraph
             return
                 @"
 { 
-    $precision p = UV * Scale;
+    $precision2 p = UV * Scale;
     $precision2 ip = floor(p);
     $precision2 fp = frac(p);
     $precision d00 = dot(Unity_GradientNoise_Dir_$precision(ip), fp);
