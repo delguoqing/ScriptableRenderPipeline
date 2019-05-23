@@ -106,8 +106,7 @@ namespace UnityEditor.ShaderGraph
                     NodeUtils.FloatToShaderValue(m_Row2.y),
                     NodeUtils.FloatToShaderValue(m_Row2.z));
             }
-            sb.AppendLine("$precision3x3 {0} = $precision3x3 (_{0}_m0.x, _{0}_m0.y, _{0}_m0.z, _{0}_m1.x, _{0}_m1.y, _{0}_m1.z, _{0}_m2.x, _{0}_m2.y, _{0}_m2.z);",
-                precision, GetVariableNameForNode());
+            sb.AppendLine("$precision3x3 {0} = $precision3x3 (_{0}_m0.x, _{0}_m0.y, _{0}_m0.z, _{0}_m1.x, _{0}_m1.y, _{0}_m1.z, _{0}_m2.x, _{0}_m2.y, _{0}_m2.z);", GetVariableNameForNode());
         }
 
         public override void CollectPreviewMaterialProperties(List<PreviewProperty> properties)
