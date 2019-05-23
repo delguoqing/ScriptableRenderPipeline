@@ -375,9 +375,15 @@ namespace UnityEditor.ShaderGraph.Drawing
                         {
                             if (evt.newValue.Equals(node.precision))
                                 return;
+                            
+                            var editorView = GetFirstAncestorOfType<GraphEditorView>();
+                            var nodeList = m_GraphView.Query<MaterialNodeView>().ToList();
+
+                            editorView.colorManager.SetNodesDirty(nodeList);
                             node.owner.owner.RegisterCompleteObjectUndo("Change precision");
                             node.precision = (Precision)evt.newValue;
                             node.owner.ValidateGraph();
+                            editorView.colorManager.UpdateNodeViews(nodeList);
                             node.Dirty(ModificationScope.Graph);
                         });
                     });
