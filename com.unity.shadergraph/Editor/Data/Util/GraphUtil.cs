@@ -1030,7 +1030,7 @@ namespace UnityEditor.ShaderGraph
             // -------------------------------------
             // Generate Output structure for Surface Description function
 
-            GenerateSurfaceDescriptionStruct(surfaceDescriptionStruct, slots);
+            GenerateSurfaceDescriptionStruct(surfaceDescriptionStruct, slots, useIdsInNames: !(node is IMasterNode));
 
             // -------------------------------------
             // Generate Surface Description function
@@ -1172,6 +1172,7 @@ namespace UnityEditor.ShaderGraph
             foreach (var channel in requirements.requiresMeshUVs.Distinct())
                 sb.AppendLine($"{variableName}.{channel.GetUVName()} = IN.{channel.GetUVName()};");
         }
+
         public static void GenerateSurfaceDescriptionStruct(ShaderStringBuilder surfaceDescriptionStruct, List<MaterialSlot> slots, string structName = "SurfaceDescription", HashSet<string> activeFields = null, bool useIdsInNames = false)
         {
             surfaceDescriptionStruct.AppendLine("struct {0}", structName);
@@ -1184,7 +1185,7 @@ namespace UnityEditor.ShaderGraph
                     {
                         hlslName = $"{hlslName}_{slot.id}";
                     }
-                    surfaceDescriptionStruct.AppendLine("{0} {1};", slot.concreteValueType.ToShaderString(), hlslName);
+                    surfaceDescriptionStruct.AppendLine("{0} {1};", slot.concreteValueType.ToShaderString(slot.owner.concretePrecision), hlslName);
 
                     if (activeFields != null)
                     {
