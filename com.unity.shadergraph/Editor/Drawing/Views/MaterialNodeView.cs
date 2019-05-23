@@ -153,6 +153,10 @@ namespace UnityEditor.ShaderGraph.Drawing
                 RegisterCallback<MouseDownEvent>(OnSubGraphDoubleClick);
             }
 
+            m_PortInputContainer.SendToBack();
+
+            m_TitleContainer = this.Q("title");
+
             var masterNode = node as IMasterNode;
             if (masterNode != null)
             {
@@ -163,10 +167,6 @@ namespace UnityEditor.ShaderGraph.Drawing
                     AttachMessage("The current render pipeline is not compatible with this master node.", ShaderCompilerMessageSeverity.Error);
                 }
             }
-
-            m_PortInputContainer.SendToBack();
-
-            m_TitleContainer = this.Q("title");
 
             m_NodeSettingsView = new NodeSettingsView();
             m_NodeSettingsView.visible = false;
