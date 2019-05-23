@@ -212,6 +212,7 @@ namespace UnityEditor.ShaderGraph.Drawing
 
         void SetSelectionPreviews(bool state)
         {
+            graph.owner.RegisterCompleteObjectUndo("Toggle Selected Previews");
             foreach (MaterialNodeView matNode in selection.Where(x => x is MaterialNodeView).Select(x => x as MaterialNodeView))
             {
                 if (matNode.node.hasPreview)
