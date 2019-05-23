@@ -16,6 +16,11 @@ See [Precision Types](Precision-Types.md) for type options.
 | Inherit | Sets the precision mode to `inherit`. <br> See **Precision Inheritance** below. Only available on nodes. |
 
 ## Using Precision Modes
+### Visualizing Precision
+The precision of data through the graph can be visualized using the [Color Modes](Color-Modes.md) in the top right hand corner of the Shader Graph window. Setting the Color Mode to `Precision` will draw whether each node is using `half` or `float` at the current evaluation. 
+
+<image>
+
 ### Graph Precision 
 Using the drop down menu in the top left corner of the [Shader Graph Window](Shader-Graph-Window.md), the precision for the entire graph can be set to `float` or `half`. By default, new nodes created will use the precision set in this drop down menu.
 
