@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.UIElements.GraphView;
 using UnityEngine;
 using UnityEditor.Graphing;
+using UnityEditor.ShaderGraph.Drawing.Colors;
 
 namespace UnityEditor.ShaderGraph
 {
@@ -183,6 +183,27 @@ namespace UnityEditor.ShaderGraph
                 return m_DefaultVariableName;
             }
         }
+
+        #region Custom Colors
+
+        [SerializeField]
+        CustomColorData m_CustomColors = new CustomColorData();
+
+        public bool TryGetColor(string provider, ref Color color)
+        {
+            return m_CustomColors.TryGetColor(provider, out color);
+        }
+
+        public void ResetColor(string provider)
+        {
+            m_CustomColors.Remove(provider);
+        }
+
+        public void SetColor(string provider, Color color)
+        {
+            m_CustomColors.Set(provider, color);
+        }
+        #endregion
 
         protected AbstractMaterialNode()
         {
@@ -519,7 +540,6 @@ namespace UnityEditor.ShaderGraph
 
         public int version { get; set; }
         public virtual bool canCopyNode => true;
-
         //True if error
         protected virtual bool CalculateNodeHasError(ref string errorMessage)
         {
@@ -687,6 +707,7 @@ namespace UnityEditor.ShaderGraph
             m_SerializableSlots = null;
             foreach (var s in m_Slots)
                 s.owner = this;
+
             UpdateNodeAfterDeserialization();
         }
 
