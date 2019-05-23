@@ -1172,8 +1172,7 @@ namespace UnityEditor.ShaderGraph
             foreach (var channel in requirements.requiresMeshUVs.Distinct())
                 sb.AppendLine($"{variableName}.{channel.GetUVName()} = IN.{channel.GetUVName()};");
         }
-
-        public static void GenerateSurfaceDescriptionStruct(ShaderStringBuilder surfaceDescriptionStruct, List<MaterialSlot> slots, string structName = "SurfaceDescription", HashSet<string> activeFields = null)
+        public static void GenerateSurfaceDescriptionStruct(ShaderStringBuilder surfaceDescriptionStruct, List<MaterialSlot> slots, string structName = "SurfaceDescription", HashSet<string> activeFields = null, bool useIdsInNames = false)
         {
             surfaceDescriptionStruct.AppendLine("struct {0}", structName);
             using (surfaceDescriptionStruct.BlockSemicolonScope())
@@ -1181,7 +1180,11 @@ namespace UnityEditor.ShaderGraph
                 foreach (var slot in slots)
                 {
                     string hlslName = NodeUtils.GetHLSLSafeName(slot.shaderOutputName);
-                    surfaceDescriptionStruct.AppendLine("{0} {1};", slot.concreteValueType.ToShaderString(slot.owner.concretePrecision), hlslName);
+                    if (useIdsInNames)
+                    {
+                        hlslName = $"{hlslName}_{slot.id}";
+                    }
+                    surfaceDescriptionStruct.AppendLine("{0} {1};", slot.concreteValueType.ToShaderString(), hlslName);
 
                     if (activeFields != null)
                     {

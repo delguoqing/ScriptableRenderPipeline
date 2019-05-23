@@ -125,7 +125,7 @@ namespace UnityEditor.ShaderGraph
             if(!IsValidFunction())
                 return;
 
-            registry.ProvideFunction($"{functionName}_{concretePrecision.ToShaderString()}", builder =>
+            switch (sourceType)
             {
                 case HlslSourceType.File:
                     registry.ProvideFunction(functionSource, builder =>
@@ -140,7 +140,7 @@ namespace UnityEditor.ShaderGraph
                     });
                     break;
                 case HlslSourceType.String:
-                    registry.ProvideFunction(functionName, builder =>
+                    registry.ProvideFunction($"{functionName}_{concretePrecision.ToShaderString()}", builder =>
                     {
                         builder.AppendLine(GetFunctionHeader());
                         using (builder.BlockScope())

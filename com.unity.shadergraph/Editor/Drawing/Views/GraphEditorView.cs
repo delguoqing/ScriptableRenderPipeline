@@ -50,7 +50,7 @@ namespace UnityEditor.ShaderGraph.Drawing
         }
 
         const string k_UserViewSettings = "UnityEditor.ShaderGraph.ToggleSettings";
-        UserViewSettings m_UserViewSettings;
+        UserViewSettings m_UserViewSettings = new UserViewSettings();
 
         const string k_FloatingWindowsLayoutKey = "UnityEditor.ShaderGraph.FloatingWindowsLayout2";
         FloatingWindowsLayout m_FloatingWindowsLayout;
