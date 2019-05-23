@@ -76,7 +76,7 @@ namespace UnityEditor.ShaderGraph
         {
             if (!generationMode.IsPreview())
             {
-                sb.AppendLine("$precision2 _{1}_m0 = $precision2 ({1}, {2});", GetVariableNameForNode(),
+                sb.AppendLine("$precision2 _{0}_m0 = $precision2 ({1}, {2});", GetVariableNameForNode(),
                     NodeUtils.FloatToShaderValue(m_Row0.x),
                     NodeUtils.FloatToShaderValue(m_Row0.y));
                 sb.AppendLine("$precision2 _{0}_m1 = $precision2 ({1}, {2});", GetVariableNameForNode(),
