@@ -4,7 +4,7 @@
 
 Shader Graph has the ability to display colors on nodes in your graph to aid in readability. This display uses **Color Modes** to change which colors are being displayed inside of the graph. **Color Modes** can be changed using the `Color Mode:` drop down menu in the top right hand corner of the [Shader Graph Window](Shader-Graph-Window.md).
 
-<image>
+![](images/Shader-Graph-Toolbar.png)
 
 ## Modes
 | Name | Description |
@@ -17,7 +17,7 @@ Shader Graph has the ability to display colors on nodes in your graph to aid in 
 ### Category Colors
 This mode displays colors on the nodes based on their category, found in the [Node Library](Node-Library.md)
 
-<image>
+![](images/Color-Mode-Category.png)
 
 Current categories and their corrresponding colors are: 
 
@@ -36,7 +36,7 @@ Current categories and their corrresponding colors are:
 ### Precision Colors
 This mode displays colors on the nodes based on their current precision. If a node is set to `Inherit Precision`, then the color displayed will reflect the currently active precision. See [Precision Modes](Precision-Modes.md) for more information on inheritance. 
 
-<image>
+![](images/Color-Mode-Precision.png)
 
 Current precision types and their corresponding colors are: 
 | Name | Color | Hex Value |
