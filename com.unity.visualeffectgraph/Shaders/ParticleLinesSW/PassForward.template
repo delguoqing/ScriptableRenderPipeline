@@ -22,6 +22,7 @@ Pass
 		#if VFX_NEEDS_POSWS_INTERPOLATOR
 		float3 posWS : TEXCOORD2;
 		#endif
+
 		UNITY_VERTEX_OUTPUT_STEREO
 	};
 	

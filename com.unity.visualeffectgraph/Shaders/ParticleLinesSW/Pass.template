@@ -7,20 +7,18 @@ ${VFXGeneratedBlockFunction}
 
 struct vs_input
 {
-	uint id : SV_VertexID;
 	VFX_DECLARE_INSTANCE_ID
 };
 
 #pragma vertex vert
-
-VFX_VARYING_PS_INPUTS vert(vs_input i)
+VFX_VARYING_PS_INPUTS vert(uint id : SV_VertexID, vs_input i)
 {
 	VFX_VARYING_PS_INPUTS o = (VFX_VARYING_PS_INPUTS)0;
 
 	UNITY_SETUP_INSTANCE_ID(i);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-	uint index = (i.id >> 2) + VFX_GET_INSTANCE_ID(i) * 2048;
+	uint index = (id >> 2) + VFX_GET_INSTANCE_ID(i) * 2048;
 	
 	${VFXLoadAttributesOrCull}
 	${VFXProcessBlocks}
@@ -63,13 +61,13 @@ VFX_VARYING_PS_INPUTS vert(vs_input i)
 	float4 vPosArray[4] = { pos0 + dPos0, pos0 - dPos0, pos1 + dPos1, pos1 - dPos1};
 	
 	#ifdef VFX_VARYING_PIXELOFFSET
-	o.VFX_VARYING_PIXELOFFSET = (i.id & 1) ? -1.0f : 1.0f;
+	o.VFX_VARYING_PIXELOFFSET = (id & 1) ? -1.0f : 1.0f;
 	#endif
 	
 	// If ever used we need the position in vfx space (we dont take into account the pixel offset)
-	float3 vPos = ((i.id >> 1) & 1) ? position : targetPosition;
+	float3 vPos = ((id >> 1) & 1) ? position : targetPosition;
 	
-	o.VFX_VARYING_POSCS = vPosArray[i.id & 3];;
+	o.VFX_VARYING_POSCS = vPosArray[id & 3];;
 	
 	${VFXVertexCommonProcess}
 	${VFXVertexAdditionalProcess}

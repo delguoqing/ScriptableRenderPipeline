@@ -7,20 +7,19 @@ ${VFXGeneratedBlockFunction}
 
 struct vs_input
 {
-	uint id : SV_VertexID;
 	VFX_DECLARE_INSTANCE_ID
 };
 
 #pragma vertex vert
 
-VFX_VARYING_PS_INPUTS vert(vs_input i)
+VFX_VARYING_PS_INPUTS vert(uint id : SV_VertexID, vs_input i)
 {
 	VFX_VARYING_PS_INPUTS o = (VFX_VARYING_PS_INPUTS)0;
 
 	UNITY_SETUP_INSTANCE_ID(i);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-	uint index = i.id >> 1;
+	uint index = id >> 1;
 	
 	${VFXLoadAttributesOrCull}
 	${VFXProcessBlocks}
@@ -38,7 +37,7 @@ VFX_VARYING_PS_INPUTS vert(vs_input i)
 	targetPosition = mul(elementToVFX,float4(targetOffset,1)).xyz;
 	#endif
 		
-	float3 vPos = i.id & 1 ? targetPosition : position;
+	float3 vPos = id & 1 ? targetPosition : position;
 	o.VFX_VARYING_POSCS = TransformPositionVFXToClip(vPos);
 	
 	${VFXVertexCommonProcess}

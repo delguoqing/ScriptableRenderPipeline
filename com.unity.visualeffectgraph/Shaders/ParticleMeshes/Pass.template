@@ -17,7 +17,6 @@ struct vs_input
 };
 
 #pragma vertex vert
-
 VFX_VARYING_PS_INPUTS vert(vs_input i)
 {
     VFX_VARYING_PS_INPUTS o = (VFX_VARYING_PS_INPUTS)0;
