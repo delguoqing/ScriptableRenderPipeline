@@ -87,11 +87,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
 
         bool ProcessDebugMode(bool xrEnabled, Camera camera)
         {
-            // Apply global override
-            if (s_displayLayoutOverride != XRLayoutOverride.None)
-                XRDebugMenu.debugMode = s_displayLayoutOverride;
-
-            if (XRDebugMenu.debugMode == XRLayoutOverride.None)
+            if (XRDebugMenu.debugMode == XRLayoutOverride.None && s_displayLayoutOverride == XRLayoutOverride.None)
             {
                 DestroyDebugVolume();
                 return false;
