@@ -5,11 +5,10 @@
 CBUFFER_START(Uniform)
     uint maxNb;
     uint offset;
-    uint instanceCountMultiplier;
-CBUFFER_END
 
-// XRTODO: workaround until C++ change is merged (set to 2 to test single-pass instancing)
-#define instanceCountMultiplier 1
+    // Used by XR single-pass instancing and set by the render pipeline
+    uint srpInstanceCountMultiplier;
+CBUFFER_END
 
 #define NB_THREADS_PER_GROUP 64
 
@@ -35,6 +34,7 @@ void CSVFXIndirectArgs(uint3 id : SV_DispatchThreadID)
         uint elementCount = inputGpuBuffer.Load(index << 2);
         InputData data = inputCpuBuffer[index];
 
+        uint instanceCountMultiplier = max(1, srpInstanceCountMultiplier);
         uint4 args = (uint4)0;
 
         switch(data.type)
@@ -102,7 +102,7 @@ void CSVFXIndirectArgs(uint3 id : SV_DispatchThreadID)
                 args.y = instanceCountMultiplier;
                 break;
             }
-			
+
 			case 6: // octagon
 			{
                 if (elementCount > 8192) // Due to 16bits indices (8 vertices per element)
